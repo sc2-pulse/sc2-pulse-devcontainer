@@ -1,0 +1,7 @@
+services:
+  sc2pulse-dev-app:
+    volumes:
+      - ${HOME}/.gitconfig:/home/developer/gitconfig.d/99-host:ro
+      - ${HOME}/.gnupg/pubring.kbx:/home/developer/.gnupg/pubring.kbx:ro
+      - ${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.extra:/home/developer/.gnupg/S.gpg-agent
+

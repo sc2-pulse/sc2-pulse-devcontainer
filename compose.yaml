@@ -1,0 +1,73 @@
+# Using the TCP docker socket instead of passing a UNIX socket because it's the
+# most robust option that works on different setups. It prevents any permission
+# issues and it's protected by container network, in which different containers
+# require access to it in this dev container by design anyway.
+x-podman:
+  in_pod: false
+services:
+  sc2pulse-dev-app:
+    image: localhost/sc2pulse-dev-app:latest
+    build: .
+    container_name: sc2pulse-dev-app
+    user: developer
+    userns_mode: "keep-id:uid=10001,gid=10001"
+    networks:
+      - sc2pulse
+    ports:
+      - "${PORT:-8080}:${PORT:-8080}"
+    volumes:
+      - sc2pulse-dev-app-src:/workspaces/sc2-pulse
+      - sc2pulse-dev-app-maven-cache:/home/developer/.m2
+      - sc2pulse-dev-app-vscode-cache:/home/developer/.vscode-server
+      - sc2pulse-dev-app-vscode-root-cache:/root/.vscode-server
+    environment:
+      MAVEN_CONFIG: "/home/developer/.m2"
+      DOCKER_HOST: "tcp://sc2pulse-dev-podman:2375"
+      ORG_TESTCONTAINERS_NETWORK_EXTERNAL_NAME: "testcontainers"
+      TESTCONTAINERS_RYUK_DISABLED: "true"
+      ORG_TESTCONTAINERS_DEV_HTTP_SERVER_PORT: "${PORT:-8080}"
+    command: >
+      bash -c '
+        trap "echo \"Shutdown signal received. Exiting.\"; exit 0" TERM INT;
+        sleep infinity &
+        wait
+      '
+  sc2pulse-dev-podman:
+    image: quay.io/podman/stable:v5.8.2
+    container_name: sc2pulse-dev-podman
+    user: podman
+    privileged: true
+    pids_limit: -1
+    security_opt:
+      - seccomp=unconfined
+    networks:
+      - sc2pulse
+    volumes:
+      - ./container/podman/registries.conf:/etc/containers/registries.conf:ro
+      - sc2pulse-dev-podman-storage:/home/podman/.local/share/containers
+      - sc2pulse-dev-podman-storage-rootful-dummy:/var/lib/containers
+    command: >
+      bash -c '
+        podman network create testcontainers 2> /dev/null || true && podman system service --time=0 tcp://sc2pulse-dev-podman:2375 &
+        SOCKET_PID=$!
+        trap "
+          echo \"Shutdown signal received...\";
+          echo \"Stopping inner containers...\";
+          podman stop -t 10 --all;
+          echo \"Stopping podman socket (PID \$$SOCKET_PID)...\";
+          kill -TERM \$$SOCKET_PID;
+          wait \$$SOCKET_PID 2>/dev/null;
+          echo \"Cleanup complete. Exiting.\";
+          exit 0
+        " TERM INT;
+        wait
+      '
+volumes:
+  sc2pulse-dev-app-src:
+  sc2pulse-dev-app-maven-cache:
+  sc2pulse-dev-app-vscode-cache:
+  sc2pulse-dev-app-vscode-root-cache:
+  sc2pulse-dev-podman-storage:
+  sc2pulse-dev-podman-storage-rootful-dummy:
+networks:
+  sc2pulse:

@@ -1,0 +1,37 @@
+## sc2pulse dev container
+This is an opinionated container config of dev environment for the [sc2-pulse](https://github.com/sc2-pulse/sc2-pulse) project.
+
+The containers provide an isolated environment with basic tools
+* jdk
+* maven
+* git
+* gh
+* std cli tools
+* isolated nested podman for testcontainers
+
+## How to
+* Compose up
+* Connect to the `sc2pulse-dev-app` container directly, via vscode remote connection, or w/e.
+* Do stuff
+* Disconnect
+* Compose down
+
+The intended container manager is rootless podman, but it should be compatible with rootful docker, although it's not tested. If you want to use bind mounts with rootful docker, then you need to pass your uid and gid when building the image via `UID` and `GID` args.
+```bash
+docker build \
+  --build-arg UID=$(id -u) \
+  --build-arg GID=$(id -g) \
+  -t localhost/sc2pulse-dev-app:latest .
+```
+
+The intended working dir is `/workspaces/sc2-pulse`. You can clone a repository there, e.g. `git clone https://github.com/sc2-pulse/sc2-pulse.git /workspaces/sc2-pulse`.
+
+## Provided utils
+* `/run/secrets/github-token`. When provided, the PAT is used via `gh` as an auth provider. Can be used to drop github privileges to required minimum.
+* `/home/developer/gitconfig.d`. All files in this directory will be included in gitconfig. Can be used to passthrough a host config.
+
+## Passthrough
+`compose-passthrough.yaml` provides a host config passthrough example for git and gpg.
+
+## vscode devcontainer
+Although it's not a standard devcontainer managed by vscode, you can still connect to `sc2pulse-dev-app` container via remote connection in vscode. You can also use [named-container-config.json](vscode/named-container-config.json). Keep in mind that vscode only reads this config at initialization. You will need to pre-create the config file before connecting. You can also connect, wait for vscode to initialize the server, `ctrl + shift + p` `Open Named Container Configuration File`, paste the config there, compose down, remove vscode related container volumes, compose up and reconnect. This will force vscode to read the config.
