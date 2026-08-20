@@ -1,7 +1,3 @@
-# Using the TCP docker socket instead of passing a UNIX socket because it's the
-# most robust option that works on different setups. It prevents any permission
-# issues and it's protected by container network, in which different containers
-# require access to it in this dev container by design anyway.
 x-podman:
   in_pod: false
 services:
@@ -9,7 +5,10 @@ services:
     image: localhost/sc2pulse-dev-app:latest
     build: .
     container_name: sc2pulse-dev-app
-    user: developer
+    user: root
+    depends_on:
+      sc2pulse-dev-podman:
+        condition: service_healthy
     userns_mode: "keep-id:uid=1000,gid=1000"
     networks:
       - sc2pulse
@@ -20,9 +19,11 @@ services:
       - sc2pulse-dev-app-maven-cache:/home/developer/.m2
       - sc2pulse-dev-app-vscode-cache:/home/developer/.vscode-server
       - sc2pulse-dev-app-vscode-root-cache:/root/.vscode-server
+      - sc2pulse-dev-podman-socket:/run/podman
     environment:
       MAVEN_CONFIG: "/home/developer/.m2"
-      DOCKER_HOST: "tcp://sc2pulse-dev-podman:2375"
+      DOCKER_HOST: "unix:///home/developer/.local/share/podman/podman.sock"
+      TESTCONTAINERS_HOST_OVERRIDE: "sc2pulse-dev-podman"
       ORG_TESTCONTAINERS_NETWORK_EXTERNAL_NAME: "testcontainers"
       TESTCONTAINERS_RYUK_DISABLED: "true"
       ORG_TESTCONTAINERS_DEV_HTTP_SERVER_PORT: "${PORT:-8080}"
@@ -46,9 +47,10 @@ services:
       - ./container/podman/registries.conf:/etc/containers/registries.conf:ro
       - sc2pulse-dev-podman-storage:/home/podman/.local/share/containers
       - sc2pulse-dev-podman-storage-rootful-dummy:/var/lib/containers
+      - sc2pulse-dev-podman-socket:/home/podman/.local/share/podman-socket
     command: >
       bash -c '
-        podman network create testcontainers 2> /dev/null || true && podman system service --time=0 tcp://sc2pulse-dev-podman:2375 &
+        podman network create testcontainers 2> /dev/null || true && podman system service --time=0 unix:///home/podman/.local/share/podman-socket/podman.sock &
         SOCKET_PID=$!
         trap "
           echo \"Shutdown signal received...\";
@@ -62,6 +64,12 @@ services:
         " TERM INT;
         wait
       '
+    healthcheck:
+      test: ["CMD-SHELL", "[ -S /home/podman/.local/share/podman-socket/podman.sock ]"]
+      interval: 30s
+      timeout: 2s
+      retries: 1
+      start_period: 5s
 volumes:
   sc2pulse-dev-app-src:
   sc2pulse-dev-app-maven-cache:
@@ -69,5 +77,6 @@ volumes:
   sc2pulse-dev-app-vscode-root-cache:
   sc2pulse-dev-podman-storage:
   sc2pulse-dev-podman-storage-rootful-dummy:
+  sc2pulse-dev-podman-socket:
 networks:
   sc2pulse:
