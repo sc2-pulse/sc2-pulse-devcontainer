@@ -16,13 +16,7 @@ The containers provide an isolated environment with basic tools
 * Disconnect
 * Compose down
 
-The intended container manager is rootless podman, but it should be compatible with rootful docker, although it's not tested. If you want to use bind mounts with rootful docker, then you need to pass your uid and gid when building the image via `UID` and `GID` args.
-```bash
-docker build \
-  --build-arg UID=$(id -u) \
-  --build-arg GID=$(id -g) \
-  -t localhost/sc2pulse-dev-app:latest .
-```
+The intended container manager is rootless podman. You can try runnning it via rootful docker, but you will probably have to match uid/gid, pre-create and chown missing mount points, etc.
 
 The intended working dir is `/workspaces/sc2-pulse`. You can clone a repository there, e.g. `git clone https://github.com/sc2-pulse/sc2-pulse.git /workspaces/sc2-pulse`.
 

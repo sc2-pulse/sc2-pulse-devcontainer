@@ -5,7 +5,7 @@ services:
     image: localhost/sc2pulse-dev-app:latest
     build: .
     container_name: sc2pulse-dev-app
-    user: root
+    user: developer
     depends_on:
       sc2pulse-dev-podman:
         condition: service_healthy

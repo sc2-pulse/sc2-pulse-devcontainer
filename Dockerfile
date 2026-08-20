@@ -10,7 +10,7 @@ RUN apt-get update \
         jq \
         socat \
         python3 \
-        gosu \
+        sudo \
     && curl -sSL https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.deb -o /tmp/gh.deb \
     && dpkg -i /tmp/gh.deb \
     && rm -rf /tmp/gh.deb \
@@ -20,10 +20,14 @@ RUN apt-get update \
 RUN userdel -r ubuntu \
     && groupadd --gid "$GID" developer \
     && useradd --uid "$UID" --gid "$GID" --create-home --shell /bin/bash developer \
-    && gosu developer gpg --list-keys
+    && sudo -u developer gpg --list-keys \
+    && sudo -u developer mkdir -p /home/developer/.local/share/podman \
+    && echo "developer ALL=(root) NOPASSWD: /usr/local/sbin/docker-init.sh" > /etc/sudoers.d/developer \
+    && chmod 440 /etc/sudoers.d/developer
 
 COPY container/app/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
+COPY --chmod=755 container/app/docker-init.sh /usr/local/sbin/docker-init.sh
 COPY --chown=developer:developer container/app/home/developer /home/developer
 
 USER developer
