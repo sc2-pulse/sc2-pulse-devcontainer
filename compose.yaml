@@ -10,7 +10,7 @@ services:
     build: .
     container_name: sc2pulse-dev-app
     user: developer
-    userns_mode: "keep-id:uid=10001,gid=10001"
+    userns_mode: "keep-id:uid=1000,gid=1000"
     networks:
       - sc2pulse
     ports:

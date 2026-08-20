@@ -1,7 +1,7 @@
 FROM maven:3.9.11-eclipse-temurin-17-noble
 
-ARG UID=10001
-ARG GID=10001
+ARG UID=1000
+ARG GID=1000
 ARG GH_VERSION=2.97.0
 
 RUN apt-get update \
@@ -16,7 +16,8 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd --gid "$GID" developer \
+RUN userdel -r ubuntu \
+    && groupadd --gid "$GID" developer \
     && useradd --uid "$UID" --gid "$GID" --create-home --shell /bin/bash developer \
     && gosu developer gpg --list-keys
 
