@@ -56,8 +56,8 @@ services:
         SOCKET_PID=$!
         trap "
           echo \"Shutdown signal received...\";
-          echo \"Stopping inner containers...\";
-          podman stop -t 10 --all;
+          echo \"Removing inner containers...\";
+          podman stop -t 10 --all && podman container prune --force;
           echo \"Stopping podman socket (PID \$$SOCKET_PID)...\";
           kill -TERM \$$SOCKET_PID;
           wait \$$SOCKET_PID 2>/dev/null;
