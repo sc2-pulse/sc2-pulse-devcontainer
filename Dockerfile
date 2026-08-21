@@ -11,6 +11,7 @@ RUN apt-get update \
         socat \
         python3 \
         sudo \
+        nano \
     && curl -sSL https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.deb -o /tmp/gh.deb \
     && dpkg -i /tmp/gh.deb \
     && rm -rf /tmp/gh.deb \
