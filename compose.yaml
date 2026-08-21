@@ -26,6 +26,8 @@ services:
       TESTCONTAINERS_HOST_OVERRIDE: "sc2pulse-dev-podman"
       ORG_TESTCONTAINERS_NETWORK_EXTERNAL_NAME: "testcontainers"
       TESTCONTAINERS_RYUK_DISABLED: "true"
+      TESTCONTAINERS_REUSE_ENABLE: "true"
+      ORG_TESTCONTAINERS_TEST_REUSE_ENABLE: "true"
       ORG_TESTCONTAINERS_DEV_HTTP_SERVER_PORT: "${PORT:-8080}"
     command: >
       bash -c '
