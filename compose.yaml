@@ -24,6 +24,7 @@ services:
       MAVEN_CONFIG: "/home/developer/.m2"
       DOCKER_HOST: "unix:///home/developer/.local/share/podman/podman.sock"
       TESTCONTAINERS_HOST_OVERRIDE: "sc2pulse-dev-podman"
+      ORG_TESTCONTAINERS_HOST: "sc2pulse-dev-app"
       ORG_TESTCONTAINERS_NETWORK_EXTERNAL_NAME: "testcontainers"
       TESTCONTAINERS_RYUK_DISABLED: "true"
       TESTCONTAINERS_REUSE_ENABLE: "true"
