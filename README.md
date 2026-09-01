@@ -24,6 +24,7 @@ The intended working dir is `/workspaces/sc2-pulse`. You can clone a repository 
 * `/run/secrets/github-token`. When provided, the PAT is used via `gh` as an auth provider. Can be used to drop github privileges to required minimum.
 * `/home/developer/gitconfig.d`. All files in this directory will be included in gitconfig. Can be used to passthrough a host config.
 * `SSH_SERVER_ENABLED` env var. Enables an optional SSH server when set to `true`. Use `/home/developer/.ssh/authorized_keys.d` dir to mount your authorized keys files. Can be used for remote execution without exposing a host container socket.
+* [Shadowsocks proxy wrapper container](container/proxy-wrapper). Mount your client config on `/home/ss/.config/shadowsocks/client.json` and replace the `network` block of the target container with `network_mode: "service:sc2pulse-dev-proxy"`. Useful if you use split tunneling on the host and want to connect some specific container to some side of the tunneling without dealing with more complex stuff such as VPNs or rootless namespace networking.
 
 ## Passthrough
 `compose-passthrough.yaml` provides a host config passthrough example for git and gpg.

@@ -1,0 +1,22 @@
+services:
+  sc2pulse-dev-proxy:
+    image: localhost/sc2pulse-dev-ss:latest
+    build:
+      context: ./container/proxy-wrapper
+    container_name: sc2pulse-dev-proxy
+    user: ss
+    userns_mode: "keep-id:uid=1000,gid=1000"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    networks:
+      - sc2pulse
+    environment:
+      SS_SERVER_ADDRESS: "host.docker.internal"
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 1080"]
+      interval: 15s
+      timeout: 1s
+      retries: 1
+      start_period: 5s
+      start_interval: 1s
