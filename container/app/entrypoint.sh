@@ -28,16 +28,16 @@ if [[ "$SSH_SERVER_ENABLED" == "true" ]]; then
     done
 fi
 
-if [ -d "$GITCONFIG_D" ]; then
+if [[ -d "$GITCONFIG_D" ]]; then
     for file in $GITCONFIG_D/*; do
-        if [ -f "$file" ]; then
+        if [[ -f "$file" ]]; then
             echo "Gitconfig $file"
             echo -e "\n[include]\n    path = $file" >> "$GITCONFIG"
         fi
     done
 fi
 
-if [ -f "$PAT_FILE" ]; then
+if [[ -f "$PAT_FILE" ]]; then
     echo "Github PAT $PAT_FILE"
     gh auth login --with-token < "$PAT_FILE"
     gh auth setup-git
