@@ -1,0 +1,11 @@
+services:
+  sc2pulse-dev-llm:
+    image: localhost/sc2pulse-dev-codex:latest
+    build:
+      context: ./container/llm
+      args:
+        - INSTALL_SCRIPT_URL=https://chatgpt.com/codex/install.sh
+    volumes:
+      - sc2pulse-dev-codex-cache:/home/llm/.codex
+volumes:
+  sc2pulse-dev-codex-cache:

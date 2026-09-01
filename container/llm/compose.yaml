@@ -1,0 +1,29 @@
+services:
+  sc2pulse-dev-app:
+    environment:
+      SSH_SERVER_ENABLED: "true"
+  sc2pulse-dev-llm:
+    container_name: sc2pulse-dev-llm
+    user: llm
+    userns_mode: "keep-id:uid=1000,gid=1000"
+    depends_on:
+      sc2pulse-dev-app:
+        condition: service_healthy
+    networks:
+      - sc2pulse
+    volumes:
+      - sc2pulse-dev-app-src:/workspaces/sc2-pulse
+    environment:
+      SSH_CLIENT_WORKDIR: "/workspaces/sc2-pulse"
+      SSH_CLIENT_DEST: "developer@sc2pulse-dev-app"
+    command: >
+      bash -c '
+        trap "echo \"Shutdown signal received. Exiting.\"; exit 0" TERM INT;
+        sleep infinity &
+        wait
+      '
+    healthcheck:
+      test: ["CMD-SHELL", "devcontainer-exec id"]
+      interval: 15s
+      timeout: 1s
+      retries: 1
