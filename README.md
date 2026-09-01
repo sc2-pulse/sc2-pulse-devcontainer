@@ -27,7 +27,7 @@ The intended working dir is `/workspaces/sc2-pulse`. You can clone a repository 
 * [Shadowsocks proxy wrapper container](container/proxy-wrapper). Mount your client config on `/home/ss/.config/shadowsocks/client.json` and replace the `network` block of the target container with `network_mode: "service:sc2pulse-dev-proxy"`. Useful if you use split tunneling on the host and want to connect some specific container to some side of the tunneling without dealing with more complex stuff such as VPNs or rootless namespace networking.
 
 ## Passthrough
-`compose-passthrough.yaml` provides a host config passthrough example for git and gpg.
+`compose.passthrough.yaml` provides a host config passthrough example for git and gpg.
 
 ## vscode devcontainer
 Although it's not a standard devcontainer managed by vscode, you can still connect to `sc2pulse-dev-app` container via remote connection in vscode. You can also use [named-container-config.json](vscode/named-container-config.json). Keep in mind that vscode only reads this config at initialization. You will need to pre-create the config file before connecting. You can also connect, wait for vscode to initialize the server, `ctrl + shift + p` `Open Named Container Configuration File`, paste the config there, compose down, remove vscode related container volumes, compose up and reconnect. This will force vscode to read the config.
