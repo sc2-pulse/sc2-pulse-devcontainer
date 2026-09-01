@@ -23,6 +23,7 @@ The intended working dir is `/workspaces/sc2-pulse`. You can clone a repository 
 ## Provided utils
 * `/run/secrets/github-token`. When provided, the PAT is used via `gh` as an auth provider. Can be used to drop github privileges to required minimum.
 * `/home/developer/gitconfig.d`. All files in this directory will be included in gitconfig. Can be used to passthrough a host config.
+* `SSH_SERVER_ENABLED` env var. Enables an optional SSH server when set to `true`. Use `/home/developer/.ssh/authorized_keys.d` dir to mount your authorized keys files. Can be used for remote execution without exposing a host container socket.
 
 ## Passthrough
 `compose-passthrough.yaml` provides a host config passthrough example for git and gpg.

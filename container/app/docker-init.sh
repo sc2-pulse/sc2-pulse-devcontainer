@@ -11,3 +11,11 @@ socat \
     UNIX-LISTEN:"$PODMAN_SOCK_OVERRIDE",user=developer,group=developer,mode=600,fork,unlink-early,su=$PODMAN_UID \
     UNIX-CONNECT:"$PODMAN_SOCK" &
 echo "Podman socket $PODMAN_SOCK_OVERRIDE"
+
+if [[ "$SSH_SERVER_ENABLED" == "true" ]]; then
+    mkdir -p /run/sshd
+    chmod 0755 /run/sshd
+    ssh-keygen -A
+    /usr/sbin/sshd
+    echo "SSH server started";
+fi

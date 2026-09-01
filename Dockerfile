@@ -12,9 +12,12 @@ RUN apt-get update \
         python3 \
         sudo \
         nano \
+        openssh-server \
+    && echo -n "ChallengeResponseAuthentication no\nPermitRootLogin no\nPasswordAuthentication no\nPubkeyAuthentication yes\n" > /etc/ssh/sshd_config.d/pubkey-only.conf \
     && curl -sSL https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.deb -o /tmp/gh.deb \
     && dpkg -i /tmp/gh.deb \
     && rm -rf /tmp/gh.deb \
+    && rm /etc/ssh/*_key* \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -23,7 +26,8 @@ RUN userdel -r ubuntu \
     && useradd --uid "$UID" --gid "$GID" --create-home --shell /bin/bash developer \
     && sudo -u developer gpg --list-keys \
     && sudo -u developer mkdir -p /home/developer/.local/share/podman \
-    && echo "developer ALL=(root) NOPASSWD: /usr/local/sbin/docker-init.sh" > /etc/sudoers.d/developer \
+    && sudo -u developer mkdir -p /home/developer/.ssh/authorized_keys.d && sudo chmod -R 0700 /home/developer/.ssh \
+    && echo "developer ALL=(root) NOPASSWD: /usr/local/sbin/docker-init.sh\nDefaults env_keep += \"SSH_SERVER_ENABLED\"" > /etc/sudoers.d/developer \
     && chmod 440 /etc/sudoers.d/developer
 
 COPY container/app/entrypoint.sh /entrypoint.sh
