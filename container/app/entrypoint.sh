@@ -4,8 +4,8 @@ set -euo pipefail
 SSH_AUTHORIZED_KEYS="$HOME/.ssh/authorized_keys"
 SSH_AUTHORIZED_KEYS_D="$SSH_AUTHORIZED_KEYS.d"
 PAT_FILE="/run/secrets/github-token"
-GITCONFIG_D="/home/developer/gitconfig.d"
-GITCONFIG="/home/developer/.gitconfig"
+GITCONFIG_D="$HOME/gitconfig.d"
+GITCONFIG="$HOME/.gitconfig"
 
 sudo /usr/local/sbin/docker-init.sh
 
