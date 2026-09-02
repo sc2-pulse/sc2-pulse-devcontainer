@@ -13,13 +13,14 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd --gid "$GID" llm \
-    && useradd --uid "$UID" --gid "$GID" --create-home --shell /bin/bash llm
+    && useradd --uid "$UID" --gid "$GID" --create-home --shell /bin/bash llm \
+    && mkdir /home/llm/.ssh && chmod 700 /home/llm/.ssh \
+    && chown -R llm:llm /home/llm \
+    && mkdir -p /workspaces/sc2-pulse && chown llm:llm /workspaces/sc2-pulse
 
 COPY devcontainer-exec.sh /usr/local/bin/devcontainer-exec
-RUN mkdir -p /workspaces/sc2-pulse && chown llm:llm /workspaces/sc2-pulse
 WORKDIR /workspaces/sc2-pulse
 
 USER llm
-RUN mkdir ~/.ssh && chmod 700 ~/.ssh
 RUN curl -fsSL "$INSTALL_SCRIPT_URL" | sh \
     && grep "PATH" ~/.profile >> ~/.bashrc

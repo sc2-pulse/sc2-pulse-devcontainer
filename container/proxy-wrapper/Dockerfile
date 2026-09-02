@@ -15,11 +15,12 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd --gid "$GID" ss \
-    && useradd --uid "$UID" --gid "$GID" --create-home --shell /bin/bash ss
+    && useradd --uid "$UID" --gid "$GID" --create-home --shell /bin/bash ss \
+    && mkdir -p /home/ss/.config/shadowsocks \
+    && chown -R ss:ss /home/ss
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["ss-redir", "-c" ,"/home/ss/.config/shadowsocks/client.json"]
 
 USER ss
-RUN mkdir -p ~/.config/shadowsocks
