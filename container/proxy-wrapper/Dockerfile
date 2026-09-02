@@ -11,6 +11,7 @@ RUN apt-get update \
         ipset \
         kmod \
         netcat-openbsd \
+        jq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

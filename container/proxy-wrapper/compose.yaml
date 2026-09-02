@@ -11,8 +11,6 @@ services:
       - NET_RAW
     networks:
       - sc2pulse
-    environment:
-      SS_SERVER_ADDRESS: "host.docker.internal"
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 1080"]
       interval: 15s
