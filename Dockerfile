@@ -27,7 +27,10 @@ RUN userdel -r ubuntu \
     && sudo -u developer gpg --list-keys \
     && mkdir -p /home/developer/.local/share/podman \
     && mkdir -p /home/developer/.ssh/authorized_keys.d && chmod -R 0700 /home/developer/.ssh \
+    && mkdir /home/developer/.m2 \
+    && mkdir /home/developer/.vscode-server \
     && chown -R developer:developer /home/developer \
+    && mkdir -p /workspaces/sc2-pulse && chown developer:developer /workspaces/sc2-pulse \
     && echo "developer ALL=(root) NOPASSWD: /usr/local/sbin/docker-init.sh\nDefaults env_keep += \"SSH_SERVER_ENABLED\"" > /etc/sudoers.d/developer \
     && chmod 440 /etc/sudoers.d/developer
 

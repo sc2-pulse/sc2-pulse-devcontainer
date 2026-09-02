@@ -15,6 +15,7 @@ RUN apt-get update \
 RUN groupadd --gid "$GID" llm \
     && useradd --uid "$UID" --gid "$GID" --create-home --shell /bin/bash llm \
     && mkdir /home/llm/.ssh && chmod 700 /home/llm/.ssh \
+    && mkdir /home/llm/.codex \
     && chown -R llm:llm /home/llm \
     && mkdir -p /workspaces/sc2-pulse && chown llm:llm /workspaces/sc2-pulse
 

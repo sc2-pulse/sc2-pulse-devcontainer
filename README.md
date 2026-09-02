@@ -16,7 +16,7 @@ The containers provide an isolated environment with basic tools
 * Disconnect
 * Compose down
 
-The intended container manager is rootless podman. You can try runnning it via rootful docker, but you will probably have to match uid/gid, pre-create and chown missing mount points, etc.
+The intended container manager is rootless podman. It should be compatible with rootful docker, although it's not tested and you will have to match container uid/gid via build args if your host uid/gid is not 1000.
 
 The intended working dir is `/workspaces/sc2-pulse`. You can clone a repository there, e.g. `git clone https://github.com/sc2-pulse/sc2-pulse.git /workspaces/sc2-pulse`.
 
