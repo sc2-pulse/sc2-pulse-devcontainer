@@ -25,8 +25,9 @@ RUN userdel -r ubuntu \
     && groupadd --gid "$GID" developer \
     && useradd --uid "$UID" --gid "$GID" --create-home --shell /bin/bash developer \
     && sudo -u developer gpg --list-keys \
-    && sudo -u developer mkdir -p /home/developer/.local/share/podman \
-    && sudo -u developer mkdir -p /home/developer/.ssh/authorized_keys.d && sudo chmod -R 0700 /home/developer/.ssh \
+    && mkdir -p /home/developer/.local/share/podman \
+    && mkdir -p /home/developer/.ssh/authorized_keys.d && chmod -R 0700 /home/developer/.ssh \
+    && chown -R developer:developer /home/developer \
     && echo "developer ALL=(root) NOPASSWD: /usr/local/sbin/docker-init.sh\nDefaults env_keep += \"SSH_SERVER_ENABLED\"" > /etc/sudoers.d/developer \
     && chmod 440 /etc/sudoers.d/developer
 
