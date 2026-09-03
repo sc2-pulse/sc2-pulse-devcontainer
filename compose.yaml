@@ -37,7 +37,7 @@ services:
         wait
       '
     healthcheck:
-      test: ["CMD-SHELL", "if [[ $${SSH_SERVER_ENABLED} = \"true\" ]]; then ssh -t -o StrictHostKeyChecking=accept-new 127.0.0.1 id; else exit 0; fi"]
+      test: ["CMD-SHELL", "if [ $${SSH_SERVER_ENABLED} = \"true\" ]; then ssh -t -o StrictHostKeyChecking=accept-new 127.0.0.1 id; else exit 0; fi"]
       interval: 15s
       timeout: 1s
       retries: 1
