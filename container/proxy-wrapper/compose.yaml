@@ -1,18 +1,17 @@
 services:
   sc2pulse-dev-proxy:
-    image: localhost/sc2pulse-dev-ss:latest
-    build:
-      context: ./container/proxy-wrapper
+    image: ghcr.io/xjasonlyu/tun2socks:v2.7.0
     container_name: sc2pulse-dev-proxy
-    user: ss
-    userns_mode: "keep-id:uid=1000,gid=1000"
     cap_add:
       - NET_ADMIN
-      - NET_RAW
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
     networks:
       - sc2pulse
+    environment:
+      - TUN_EXCLUDED_ROUTES=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,127.0.0.0/8,169.254.0.0/16,100.64.0.0/10,224.0.0.0/4,255.255.255.255
     healthcheck:
-      test: ["CMD-SHELL", "nc -z 127.0.0.1 1080"]
+      test: ["CMD-SHELL", "ip link show tun0"]
       interval: 15s
       timeout: 1s
       retries: 1
