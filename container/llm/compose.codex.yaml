@@ -7,5 +7,6 @@ services:
         - INSTALL_SCRIPT_URL=https://chatgpt.com/codex/install.sh
     volumes:
       - sc2pulse-dev-codex-cache:/home/llm/.codex
+      - ./container/llm/AGENTS.md:/workspaces/sc2-pulse/AGENTS.md:ro
 volumes:
   sc2pulse-dev-codex-cache:
