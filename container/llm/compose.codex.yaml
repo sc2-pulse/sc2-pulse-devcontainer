@@ -8,5 +8,6 @@ services:
     volumes:
       - sc2pulse-dev-codex-cache:/home/llm/.codex
       - ./container/llm/AGENTS.md:/workspaces/sc2-pulse/AGENTS.md:ro
+      - ./container/llm/config.codex.toml:/etc/codex/config.toml:ro
 volumes:
   sc2pulse-dev-codex-cache:
