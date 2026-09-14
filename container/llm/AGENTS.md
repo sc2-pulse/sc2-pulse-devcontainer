@@ -81,6 +81,7 @@ The following rules apply to tasks that require code changes. If the task is pur
 * Run all unit tests `devcontainer-exec "mvn test"`
 * Run all integration tests except `GeneralSeleniumIT`: `devcontainer-exec "mvn verify -Dit.test=!GeneralSeleniumIT"`
 * Run selenium tests `devcontainer-exec "mvn verify -Dit.test=GeneralSeleniumIT"`
+* Ask the user to review and confirm changes
 * Commit changes. Use brief commit msg, imperative mood; add more detailed explanation in complex cases. Don't change git identity; don't use any trailers.
 * Create a PR via gh. Brief PR description with key points, don't be overly expressive. The PR msg must contain the "closes" clause if working on specific gh issue.
 
