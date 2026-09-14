@@ -21,6 +21,7 @@ SC2 Pulse is a maven Spring Boot 3 ranked ladder tracker for StarCraft 2.
 * mostly Spring JDBC, possibly Spring Data JPA
 * PostgreSQL for main data, ClickHouse for timeseries and analytics
 * junit5, mockito, testcontainers
+* git, gh
 
 ### Navigation
 Paths below are relative to src/main/java/com/nephest/battlenet/sc2/:
