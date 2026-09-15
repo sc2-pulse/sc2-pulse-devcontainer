@@ -57,8 +57,9 @@ Optional psql parameters examples
 
 #### Backend code style
 * 4 spaces indentation
-* Each parameter, call, and declaration on a separate line
+* 80 characters max lines. If a line doesn't fit, place each parameter, call, and declaration on a separate line.
 * Braces in separate lines. Exception can be made if there are a lot of nested braces.
+* These rules only apply to new/changed sections.
 
 ### Frontend
 * Thymeleaf templates for initial page renders, then REST API + JS for interactions.
