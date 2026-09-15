@@ -87,7 +87,7 @@ The following rules apply to tasks that require code changes. If the task is pur
 * Create a PR via gh. Brief PR description with key points, don't be overly expressive. The PR msg must contain the "closes" clause if working on specific gh issue.
 
 * If any step fails, stop the workflow, fix the issue and restart the workflow from the start, excluding redundant steps such as creating a new branch if it already exists.
-* Integration and selenium tests can take 5-7 minutes to complete. Wait for it.
+* Integration and selenium tests can take up to 10 minutes to complete. Wait for it.
 * Treat failures in external-service tests as upstream failures only when the failure evidence supports that diagnosis; report them explicitly.
 * Determine success from the command result and Surefire/Failsafe reports under target/, not isolated logged exceptions.
 * Depending on Spring config set by the user, some tests can be skipped by maven. This is normal.
