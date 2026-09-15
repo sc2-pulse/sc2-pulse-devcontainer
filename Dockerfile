@@ -14,6 +14,7 @@ RUN apt-get update \
         nano \
         openssh-server \
     && echo -n "ChallengeResponseAuthentication no\nPermitRootLogin no\nPasswordAuthentication no\nPubkeyAuthentication yes\n" > /etc/ssh/sshd_config.d/pubkey-only.conf \
+    && echo -n "Match User developer\n    ForceCommand /usr/local/bin/ssh-docker-env.sh\n" > /etc/ssh/sshd_config.d/developer-docker-env.conf \
     && curl -sSL https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.deb -o /tmp/gh.deb \
     && dpkg -i /tmp/gh.deb \
     && rm -rf /tmp/gh.deb \
@@ -37,6 +38,7 @@ RUN userdel -r ubuntu \
 COPY container/app/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 COPY --chmod=755 container/app/docker-init.sh /usr/local/sbin/docker-init.sh
+COPY --chmod=755 container/app/ssh-docker-env.sh /usr/local/bin/ssh-docker-env.sh
 COPY --chown=developer:developer container/app/home/developer /home/developer
 
 USER developer
