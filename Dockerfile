@@ -4,7 +4,8 @@ ARG UID=1000
 ARG GID=1000
 ARG GH_VERSION=2.97.0
 
-RUN apt-get update \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update \
     && apt-get install -y --no-install-recommends \
         tree \
         jq \
