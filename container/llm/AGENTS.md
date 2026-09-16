@@ -77,7 +77,7 @@ When adding, removing, or renaming browser scripts, check both templates/layout/
 The following rules apply to tasks that require code changes. If the task is purely exploration, then explore the codebase as needed without modifying it.
 
 * If current branch is not a major dev branch(`master` or numeric version e.g. `2.0.0`), ask the user if it should be used for the current work.
-* If on major branch, create a new task-specific branch. Naming: (fix/feat/task)/short-name.
+* If on major branch, create a new task-specific branch. If working on a gh issue, execute `devcontainer-exec "gh issue develop {issueId} --base '{currentMajorBranchName}' --name '{branchName}' --checkout"` cmd. If gh is restricted from doing this, report it and ask the user to create a brach; print the gh cmd without the `devcontainer-exec` wrapper as an example. When working on a non-gh issue, create a branch with git. Naming: (fix/feat/task)/short-name. 
 * Solve provided task
 * Run specific tests related to these changes: `devcontainer-exec "mvn test -Dtest=TestSuite"`, `devcontainer-exec "mvn test -Dtest=TestSuite#test"`, `devcontainer-exec "mvn verify -Dtest=TestSuiteIT"`.
 * Run all unit tests `devcontainer-exec "mvn test"`
