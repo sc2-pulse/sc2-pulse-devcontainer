@@ -54,6 +54,7 @@ Optional psql parameters examples
 * Empty collections represent no value in method parameters, i.e. `Set.of()` instead of `null`. Such empty collections are often passed as nulls in the DB layer though.
 * After `Var.tryLoad(nonNullDefault)`, do not add a redundant null check. This guarantee does not apply to tryLoad() or a null default.
 * Place new app specific Spring application properties under the `com.nephest.battlenet.sc2` root and add them to the "Common application properties" or "Common test properties" section in README.md.
+* Prefer text blocks for large multi-line string sections.
 
 #### Backend code style
 * 4 spaces indentation
