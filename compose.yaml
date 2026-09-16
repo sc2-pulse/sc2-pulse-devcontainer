@@ -60,13 +60,17 @@ services:
       - sc2pulse-dev-podman-socket:/home/podman/.local/share/podman-socket
     command: >
       bash -c '
+        clean_podman_resources() {
+            echo \"Cleaning podman resources...\";
+            podman stop -t 10 --all && podman container prune --force;
+            podman network rm testcontainers 2>/dev/null;
+        }
+        clean_podman_resources;
         podman network create testcontainers && podman system service --time=0 unix:///home/podman/.local/share/podman-socket/podman.sock &
         SOCKET_PID=$!
         trap "
           echo \"Shutdown signal received...\";
-          echo \"Removing spawned resources...\";
-          podman stop -t 10 --all && podman container prune --force;
-          podman network rm testcontainers;
+          clean_podman_resources;
           echo \"Stopping podman socket (PID \$$SOCKET_PID)...\";
           kill -TERM \$$SOCKET_PID;
           wait \$$SOCKET_PID 2>/dev/null;
