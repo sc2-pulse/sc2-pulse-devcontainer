@@ -56,6 +56,7 @@ Optional psql parameters examples
 * Place new app specific Spring application properties under the `com.nephest.battlenet.sc2` root and add them to the "Common application properties" or "Common test properties" section in README.md.
 * Prefer text blocks for large multi-line string sections.
 * For JPA entities, override `hashCode` and `equals`. Prefer natural ids; use `getClass().hashCode()` in `hashCode` and generated id in `equals` otherwise.
+* For JPA data, prefer JPA, use Hibernate when needed.
 
 #### Backend code style
 * 4 spaces indentation
