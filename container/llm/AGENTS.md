@@ -57,6 +57,7 @@ Optional psql parameters examples
 * Prefer text blocks for large multi-line string sections.
 * For JPA entities, override `hashCode` and `equals`. Prefer natural ids; use `getClass().hashCode()` in `hashCode` and generated id in `equals` otherwise.
 * For JPA data, prefer JPA, use Hibernate when needed.
+* JPA embeddable is `record`. If an embeddable is not a value object, override `hashCode` and `equals`.
 
 #### Backend code style
 * 4 spaces indentation
