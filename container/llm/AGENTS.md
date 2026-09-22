@@ -58,6 +58,7 @@ Optional psql parameters examples
 * For JPA entities, override `hashCode`, `equals`, and `toString` methods. Prefer natural ids; use `getClass().hashCode()` in `hashCode` and generated id in `equals` otherwise.
 * For JPA data, prefer JPA, use Hibernate when needed.
 * JPA embeddable is `record`. If an embeddable is not a value object, override `hashCode` and `equals`.
+* For JPA repositories, use Spring Data interfaces. Add custom code via intefaces: interface(e.g. `UserRepositoryCustom`), impl(e.g. `UserRepositoryCustomImpl`), main JPA repository extends the custom interface.
 
 #### Backend code style
 * 4 spaces indentation
