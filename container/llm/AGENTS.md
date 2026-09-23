@@ -59,6 +59,7 @@ Optional psql parameters examples
 * For JPA data, prefer JPA, use Hibernate when needed.
 * JPA embeddable is `record`. If an embeddable is not a value object, override `hashCode` and `equals`.
 * For JPA repositories, use Spring Data interfaces. Add custom code via intefaces: interface(e.g. `UserRepositoryCustom`), impl(e.g. `UserRepositoryCustomImpl`), main JPA repository extends the custom interface.
+* Use `Objects.equals` or guard clauses instead of Yoda conditions when dealing with nullable vars.
 
 #### Backend code style
 * 4 spaces indentation
