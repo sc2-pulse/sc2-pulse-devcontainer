@@ -63,7 +63,7 @@ Optional psql parameters examples
 
 #### Backend code style
 * 4 spaces indentation
-* 80 characters max lines. If a line doesn't fit, place calls in separate lines if they fit, otherwise place each parameter, call, and declaration on a separate line.
+* 80 characters max lines. If a line doesn't fit, split it into logical segments such as method calls or var values; place segments shorter than max line length on a separate line, otherwise place each parameter, call, and declaration of violating segments on a separate line.
 * Braces in separate lines. Exception can be made if there are a lot of nested braces.
 * These rules only apply to new/changed sections.
 
