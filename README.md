@@ -33,4 +33,10 @@ The intended working dir is `/workspaces/sc2-pulse`. You can clone a repository 
 Although it's not a standard devcontainer managed by vscode, you can still connect to `sc2pulse-dev-app` container via remote connection in vscode. You can also use [named-container-config.json](vscode/named-container-config.json). Keep in mind that vscode only reads this config at initialization. You will need to pre-create the config file before connecting. You can also connect, wait for vscode to initialize the server, `ctrl + shift + p` `Open Named Container Configuration File`, paste the config there, compose down, remove vscode related container volumes, compose up and reconnect. This will force vscode to read the config.
 
 ## LLM
-A CLI LLM agent can be installed directly in the dev container locally, or it can connect to the dev container remotely via container exec or SSH. See [LLM container example](container/llm). Don't forget to add client SSH keys to the LLM container and authorized_keys to the dev container. 
+A CLI LLM agent can be installed directly in the dev container locally, or it can connect to the dev container remotely via container exec or SSH.
+
+### Containers
+[LLM container config](container/llm) provides containerized agents that connect to the dev container via SSH.
+* Generate SSH keys. Mount them under `/home/llm/.ssh` in the llm container, and mount the public key on `/home/developer/.ssh/authorized_keys.d/llm` in the dev container.
+* Merge [container/llm/compose.yaml](container/llm/compose.yaml), it's the base agent container config. Merge agent specific config such as `compose.codex.yaml`.
+* Connect to the `sc2pulse-dev-llm` container and launch the agent, e.g. `codex`.
