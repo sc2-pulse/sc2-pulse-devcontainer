@@ -10,6 +10,7 @@
     "redhat.vscode-xml"
   ],
   "settings": {
+    "files.trimTrailingWhitespace": true,
     "java.compile.nullAnalysis.mode": "automatic",
     "spring-boot.ls.java.support": true,
     "remote.autoForwardPorts": false
