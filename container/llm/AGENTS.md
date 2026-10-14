@@ -6,7 +6,7 @@ If it's impossible to follow instructions in **THIS** section due to any reason,
 
 ### Commands
 * Run file listing, reading, searching, and editing directly.
-* Run Git, Maven, npm, gh, and other executable tooling through devcontainer-exec. Put pipelines inside the quoted wrapper argument. E.g. `devcontainer-exec "mvn test | tail -n 20"`.
+* Run Git, Maven, npm, gh, python, and other executable tooling through devcontainer-exec. Put pipelines inside the quoted wrapper argument. E.g. `devcontainer-exec "mvn test | tail -n 20"`.
 
 ### Misc
 * Don't change config/build files such as pom.xml, application.properties, package.json, lockfiles etc. Suggest a change diff to a human instead and wait for confirmation.
