@@ -80,7 +80,7 @@ When adding, removing, or renaming browser scripts, check both templates/layout/
 * For simple readonly API cases, prefer `model/dao/StandardAPIReadonlyIT`.
 * For readonly persistence cases, inspect `model/dao/StandardDataReadonlyIT`.
 * Convert to target types in web/mockmvc tests. Don't use raw Jackson types like `JsonNode` unless the test requires it. See existing web ITs.
-* Prefer `@ParameterizedTest` for unit tests with similar logic.
+* Prefer `@ParameterizedTest` for unit tests with similar setup logic. Prefer multiple tests for similar business rules but different test setup.
 
 ### Typical workflow
 The following rules apply to tasks that require code changes. If the task is purely exploration, then explore the codebase as needed without modifying it.
