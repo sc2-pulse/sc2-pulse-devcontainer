@@ -66,6 +66,7 @@ Optional psql parameters examples
 * 80 characters max lines. If a line doesn't fit, split it into logical segments such as method calls or var values; place segments shorter than max line length on a separate line, otherwise place each parameter, call, and declaration of violating segments on a separate line.
 * Braces in separate lines. Exception can be made if there are a lot of nested braces.
 * These rules only apply to new/changed sections.
+* Sort imports alphabetically, static imports first. Separate static and normal imports with an empty line.
 
 ### Frontend
 * Thymeleaf templates for initial page renders, then REST API + JS for interactions.
