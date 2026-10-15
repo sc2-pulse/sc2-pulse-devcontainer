@@ -11,6 +11,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
         curl \
         openssh-client \
         procps \
+        jq \
+        nano \
+        vim \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -18,12 +21,15 @@ RUN groupadd --gid "$GID" llm \
     && useradd --uid "$UID" --gid "$GID" --create-home --shell /bin/bash llm \
     && mkdir /home/llm/.ssh && chmod 700 /home/llm/.ssh \
     && mkdir /home/llm/.codex \
+    && mkdir /home/llm/.claude \
+    && ln -s /home/llm/.claude/.x-claude.json /home/llm/.claude.json \
     && chown -R llm:llm /home/llm \
     && mkdir -p /workspaces/sc2-pulse && chown llm:llm /workspaces/sc2-pulse
 
 COPY devcontainer-exec.sh /usr/local/bin/devcontainer-exec
+COPY --chown=llm:llm claude/.claude /home/llm/.claude
 WORKDIR /workspaces/sc2-pulse
 
 USER llm
-RUN curl -fsSL "$INSTALL_SCRIPT_URL" | sh \
+RUN curl -fsSL "$INSTALL_SCRIPT_URL" | bash \
     && grep "PATH" ~/.profile >> ~/.bashrc

@@ -38,5 +38,5 @@ A CLI LLM agent can be installed directly in the dev container locally, or it ca
 ### Containers
 [LLM container config](container/llm) provides containerized agents that connect to the dev container via SSH.
 * Generate SSH keys. Mount them under `/home/llm/.ssh` in the `sc2pulse-dev-llm` container, and mount the public key on `/home/developer/.ssh/authorized_keys.d/llm` in the `sc2pulse-dev-app` container.
-* Merge [container/llm/compose.yaml](container/llm/compose.yaml), it's the base agent container config. Merge agent specific config such as `compose.codex.yaml`.
+* Merge [container/llm/compose.yaml](container/llm/compose.yaml), it's the base agent container config. Merge agent specific config such as [container/llm/claude/compose.yaml](container/llm/claude/compose.yaml).
 * Connect to the `sc2pulse-dev-llm` container and launch the agent, e.g. `codex`.

@@ -1,0 +1,8 @@
+{
+  "theme": "auto",
+  "model": "sonnet",
+  "statusLine": {
+    "type": "command",
+    "command": "sh /home/llm/.claude/statusline-command.sh"
+  }
+}
