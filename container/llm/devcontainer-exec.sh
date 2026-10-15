@@ -1,6 +1,8 @@
 #!/bin/bash
 
-ssh -o StrictHostKeyChecking=accept-new -o LogLevel=QUIET $SSH_CLIENT_DEST bash -s "$SSH_CLIENT_WORKDIR" "$@" << 'EOF'
-cd "$1" && shift
-"$@"
+ssh -o StrictHostKeyChecking=accept-new -o LogLevel=QUIET $SSH_CLIENT_DEST bash -s << EOF
+cd $(printf '%q' "$SSH_CLIENT_WORKDIR") || exit
+{
+$*
+} </dev/null
 EOF
