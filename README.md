@@ -11,7 +11,7 @@ The containers provide an isolated environment with basic tools
 
 ## How to
 * Compose up
-* Connect to the `sc2pulse-dev-app` container directly, via vscode remote connection, or w/e.
+* Connect to the `app` container directly, via vscode remote connection, or w/e.
 * Do stuff
 * Disconnect
 * Compose down
@@ -24,19 +24,19 @@ The intended working dir is `/workspaces/sc2-pulse`. You can clone a repository 
 * `/run/secrets/github-token`. When provided, the PAT is used via `gh` as an auth provider. Can be used to drop github privileges to required minimum.
 * `/home/developer/gitconfig.d`. All files in this directory will be included in gitconfig. Can be used to passthrough a host config.
 * `SSH_SERVER_ENABLED` env var. Enables an optional SSH server when set to `true`. Use `/home/developer/.ssh/authorized_keys.d` dir to mount your authorized keys files. Can be used for remote execution without exposing a host container socket.
-* [tun2socks wrapper container](container/proxy-wrapper). Add a `PROXY` env var(see [proxy models](https://github.com/xjasonlyu/tun2socks/wiki/Proxy-Models)) and replace the `network` block of the target container with `network_mode: "service:sc2pulse-dev-proxy"`. Useful if you have some complex networking on the host and you want to tunnel specific containers there without dealing with more complex stuff such as VPNs or rootless namespace networking.
+* [tun2socks wrapper container](container/proxy-wrapper). Add a `PROXY` env var(see [proxy models](https://github.com/xjasonlyu/tun2socks/wiki/Proxy-Models)) and replace the `network` block of the target container with `network_mode: "service:proxy"`. Useful if you have some complex networking on the host and you want to tunnel specific containers there without dealing with more complex stuff such as VPNs or rootless namespace networking.
 
 ## Passthrough
 `compose.passthrough.yaml` provides a host config passthrough example for git and gpg.
 
 ## vscode devcontainer
-Although it's not a standard devcontainer managed by vscode, you can still connect to `sc2pulse-dev-app` container via remote connection in vscode. You can also use [named-container-config.json](vscode/named-container-config.json). Keep in mind that vscode only reads this config at initialization. You will need to pre-create the config file before connecting. You can also connect, wait for vscode to initialize the server, `ctrl + shift + p` `Open Named Container Configuration File`, paste the config there, compose down, remove vscode related container volumes, compose up and reconnect. This will force vscode to read the config.
+Although it's not a standard devcontainer managed by vscode, you can still connect to `app` container via remote connection in vscode. You can also use [named-container-config.json](vscode/named-container-config.json). Keep in mind that vscode only reads this config at initialization. You will need to pre-create the config file before connecting. You can also connect, wait for vscode to initialize the server, `ctrl + shift + p` `Open Named Container Configuration File`, paste the config there, compose down, remove vscode related container volumes, compose up and reconnect. This will force vscode to read the config.
 
 ## LLM
 A CLI LLM agent can be installed directly in the dev container locally, or it can connect to the dev container remotely via container exec or SSH.
 
 ### Containers
 [LLM container config](container/llm) provides containerized agents that connect to the dev container via SSH.
-* Generate SSH keys. Mount them under `/home/llm/.ssh` in the `sc2pulse-dev-llm` container, and mount the public key on `/home/developer/.ssh/authorized_keys.d/llm` in the `sc2pulse-dev-app` container.
+* Generate SSH keys. Mount them under `/home/llm/.ssh` in the `llm` container, and mount the public key on `/home/developer/.ssh/authorized_keys.d/llm` in the `app` container.
 * Merge [container/llm/compose.yaml](container/llm/compose.yaml), it's the base agent container config. Merge agent specific config such as [container/llm/claude/compose.yaml](container/llm/claude/compose.yaml).
-* Connect to the `sc2pulse-dev-llm` container and launch the agent, e.g. `codex`.
+* Connect to the `llm` container and launch the agent, e.g. `codex`.

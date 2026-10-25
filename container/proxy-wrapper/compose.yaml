@@ -1,7 +1,7 @@
 services:
-  sc2pulse-dev-proxy:
+  proxy:
     image: ghcr.io/xjasonlyu/tun2socks:v2.7.0
-    container_name: sc2pulse-dev-proxy
+    container_name: proxy
     cap_add:
       - NET_ADMIN
     devices:

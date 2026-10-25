@@ -1,12 +1,12 @@
 services:
-  sc2pulse-dev-llm:
+  llm:
     image: localhost/sc2pulse-dev-claude:latest
     build:
       context: ./container/llm
       args:
         - INSTALL_SCRIPT_URL=https://claude.ai/install.sh
     volumes:
-      - sc2pulse-dev-claude-home:/home/llm/
+      - claude-home:/home/llm/
       - ./container/llm/AGENTS.md:/workspaces/sc2-pulse/CLAUDE.md:ro
 volumes:
-  sc2pulse-dev-claude-home:
+  claude-home:

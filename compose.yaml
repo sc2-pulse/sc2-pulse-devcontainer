@@ -1,13 +1,13 @@
 x-podman:
   in_pod: false
 services:
-  sc2pulse-dev-app:
+  app:
     image: localhost/sc2pulse-dev-app:latest
     build: .
-    container_name: sc2pulse-dev-app
+    container_name: app
     user: developer
     depends_on:
-      sc2pulse-dev-podman:
+      podman:
         condition: service_healthy
     userns_mode: "keep-id:uid=1000,gid=1000"
     networks:
@@ -15,16 +15,16 @@ services:
     ports:
       - "${PORT:-8080}:${PORT:-8080}"
     volumes:
-      - sc2pulse-dev-app-src:/workspaces/sc2-pulse
-      - sc2pulse-dev-app-maven-cache:/home/developer/.m2
-      - sc2pulse-dev-app-vscode-cache:/home/developer/.vscode-server
-      - sc2pulse-dev-app-vscode-root-cache:/root/.vscode-server
-      - sc2pulse-dev-podman-socket:/run/podman
+      - app-src:/workspaces/sc2-pulse
+      - app-maven-cache:/home/developer/.m2
+      - app-vscode-cache:/home/developer/.vscode-server
+      - app-vscode-root-cache:/root/.vscode-server
+      - podman-socket:/run/podman
     environment:
       MAVEN_CONFIG: "/home/developer/.m2"
       DOCKER_HOST: "unix:///home/developer/.local/share/podman/podman.sock"
-      TESTCONTAINERS_HOST_OVERRIDE: "sc2pulse-dev-podman"
-      ORG_TESTCONTAINERS_HOST: "sc2pulse-dev-app"
+      TESTCONTAINERS_HOST_OVERRIDE: "podman"
+      ORG_TESTCONTAINERS_HOST: "app"
       ORG_TESTCONTAINERS_NETWORK_EXTERNAL_NAME: "testcontainers"
       TESTCONTAINERS_RYUK_DISABLED: "true"
       TESTCONTAINERS_REUSE_ENABLE: "true"
@@ -43,9 +43,9 @@ services:
       retries: 1
       start_period: 10s
       start_interval: 2s
-  sc2pulse-dev-podman:
+  podman:
     image: quay.io/podman/stable:v5.8.2
-    container_name: sc2pulse-dev-podman
+    container_name: podman
     user: podman
     privileged: true
     pids_limit: -1
@@ -55,9 +55,9 @@ services:
       - sc2pulse
     volumes:
       - ./container/podman/registries.conf:/etc/containers/registries.conf:ro
-      - sc2pulse-dev-podman-storage:/home/podman/.local/share/containers
-      - sc2pulse-dev-podman-storage-rootful-dummy:/var/lib/containers
-      - sc2pulse-dev-podman-socket:/home/podman/.local/share/podman-socket
+      - podman-storage:/home/podman/.local/share/containers
+      - podman-storage-rootful-dummy:/var/lib/containers
+      - podman-socket:/home/podman/.local/share/podman-socket
     command: >
       bash -c '
         clean_podman_resources() {
@@ -86,12 +86,12 @@ services:
       retries: 1
       start_period: 5s
 volumes:
-  sc2pulse-dev-app-src:
-  sc2pulse-dev-app-maven-cache:
-  sc2pulse-dev-app-vscode-cache:
-  sc2pulse-dev-app-vscode-root-cache:
-  sc2pulse-dev-podman-storage:
-  sc2pulse-dev-podman-storage-rootful-dummy:
-  sc2pulse-dev-podman-socket:
+  app-src:
+  app-maven-cache:
+  app-vscode-cache:
+  app-vscode-root-cache:
+  podman-storage:
+  podman-storage-rootful-dummy:
+  podman-socket:
 networks:
   sc2pulse:
