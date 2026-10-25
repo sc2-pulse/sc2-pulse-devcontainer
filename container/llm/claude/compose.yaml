@@ -6,7 +6,7 @@ services:
       args:
         - INSTALL_SCRIPT_URL=https://claude.ai/install.sh
     volumes:
-      - sc2pulse-dev-claude-cache:/home/llm/.claude
+      - sc2pulse-dev-claude-home:/home/llm/
       - ./container/llm/AGENTS.md:/workspaces/sc2-pulse/CLAUDE.md:ro
 volumes:
-  sc2pulse-dev-claude-cache:
+  sc2pulse-dev-claude-home:

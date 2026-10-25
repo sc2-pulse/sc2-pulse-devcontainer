@@ -22,7 +22,6 @@ RUN groupadd --gid "$GID" llm \
     && mkdir /home/llm/.ssh && chmod 700 /home/llm/.ssh \
     && mkdir /home/llm/.codex \
     && mkdir /home/llm/.claude \
-    && ln -s /home/llm/.claude/.x-claude.json /home/llm/.claude.json \
     && chown -R llm:llm /home/llm \
     && mkdir -p /workspaces/sc2-pulse && chown llm:llm /workspaces/sc2-pulse
 

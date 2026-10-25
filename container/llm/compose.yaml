@@ -19,6 +19,7 @@ services:
     command: >
       bash -c '
         trap "echo \"Shutdown signal received. Exiting.\"; exit 0" TERM INT;
+        ssh-keygen -f '/home/llm/.ssh/known_hosts' -R 'sc2pulse-dev-app' > /dev/null;
         sleep infinity &
         wait
       '
