@@ -3,7 +3,6 @@ services:
     environment:
       SSH_SERVER_ENABLED: "true"
   llm:
-    container_name: llm
     user: llm
     userns_mode: "keep-id:uid=1000,gid=1000"
     depends_on:

@@ -4,7 +4,6 @@ services:
   app:
     image: localhost/sc2pulse-dev-app:latest
     build: .
-    container_name: app
     user: developer
     depends_on:
       podman:
@@ -45,7 +44,6 @@ services:
       start_interval: 2s
   podman:
     image: quay.io/podman/stable:v5.8.2
-    container_name: podman
     user: podman
     privileged: true
     pids_limit: -1
